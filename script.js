@@ -11,8 +11,9 @@ buttons.forEach(e => {
 
 
             if(e.classList.contains("operators")){
-                elements.push(screen.innerText)
 
+                elements.push(screen.innerText)
+            
                 if (e.innerText=="="){
                     if(elements.length==3){
                         subScreen.innerText = "";
@@ -20,22 +21,22 @@ buttons.forEach(e => {
                         elements = [];
                         logged = true;
                     }
-
+                    
                     else{
                         alert("error")
                     }
                 }
-
+                
                 else{
                     if(elements.length==3){
-                        screen.innerText = calculate();
+                        Number.isNaN(calculate())?resetAll():screen.innerText = calculate();
                         elements = [];
                         elements.push(screen.innerText)
                     }
+
                     elements.push(e.innerText)
                     subScreen.innerText = screen.innerText + e.innerText;
                     logged = true;
-                    console.log(elements)
             }
             }
 
@@ -45,18 +46,17 @@ buttons.forEach(e => {
                     logged=false;
                 }
                 screen.innerText += e.innerText;
+            
             }
         }
 
         else if(e.innerText=="DELETE"){
+
             screen.innerText = String(screen.innerText).slice(0,-1);
         }
 
         else{
-            logged = false;
-            elements = [];
-            screen.innerText = ""
-            subScreen.innerText = ""
+            resetAll()
         }
     });
 });
@@ -94,4 +94,11 @@ function multiplyNumbers(){
 
 function divideNumbers(){
     return parseFloat(elements[0]) / parseFloat(elements[2])
+}
+
+function resetAll(){
+    logged = false;
+    elements = [];
+    screen.innerText = ""
+    subScreen.innerText = ""
 }
