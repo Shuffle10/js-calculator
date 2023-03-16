@@ -3,6 +3,7 @@ screen = document.getElementsByClassName("main-screen")[0];
 subScreen = document.getElementsByClassName("subscreen")[0];
 
 let logged=false;
+let firstNum = true;
 let elements = [];
 
 buttons.forEach(e => {
@@ -10,8 +11,7 @@ buttons.forEach(e => {
         if(e.innerText !== "CLEAR" && e.innerText!== "DELETE"){
 
 
-            if(e.classList.contains("operators")){
-
+            if(e.classList.contains("operators") && firstNum==false){
                 elements.push(screen.innerText)
             
                 if (e.innerText=="="){
@@ -23,7 +23,7 @@ buttons.forEach(e => {
                     }
                     
                     else{
-                        alert("error")
+                        alert("Can't compute!")
                     }
                 }
                 
@@ -46,7 +46,7 @@ buttons.forEach(e => {
                     logged=false;
                 }
                 screen.innerText += e.innerText;
-            
+                firstNum = false
             }
         }
 
@@ -101,4 +101,5 @@ function resetAll(){
     elements = [];
     screen.innerText = ""
     subScreen.innerText = ""
+    firstNum = true;
 }
