@@ -1,52 +1,97 @@
 buttons = document.querySelectorAll(".btn");
-screen = document.getElementsByClassName("screen")[0];
-let resultDisplayed=false;
+screen = document.getElementsByClassName("main-screen")[0];
+subScreen = document.getElementsByClassName("subscreen")[0];
+
+let logged=false;
+let elements = [];
 
 buttons.forEach(e => {
     e.addEventListener('click', ()=>{  
+        if(e.innerText !== "CLEAR" && e.innerText!== "DELETE"){
 
-        if (e.innerText!=="CLEAR" && e.innerText!=="DELETE" && e.innerText!=="="){
 
-            if(resultDisplayed){
-                screen.innerText = ""
-                resultDisplayed = false; 
+            if(e.classList.contains("operators")){
+                elements.push(screen.innerText)
+
+                if (e.innerText=="="){
+                    if(elements.length==3){
+                        subScreen.innerText = "";
+                        screen.innerText = calculate();
+                        elements = [];
+                        logged = true;
+                    }
+
+                    else{
+                        alert("error")
+                    }
+                }
+
+                else{
+                    if(elements.length==3){
+                        screen.innerText = calculate();
+                        elements = [];
+                        elements.push(screen.innerText)
+                    }
+                    elements.push(e.innerText)
+                    subScreen.innerText = screen.innerText + e.innerText;
+                    logged = true;
+                    console.log(elements)
             }
-            
-            screen.innerText += `${e.innerHTML}`
+            }
+
+            else{
+                if (logged){
+                    screen.innerText = ""
+                    logged=false;
+                }
+                screen.innerText += e.innerText;
+            }
         }
 
-        if(e.innerText=="CLEAR"){
+        else if(e.innerText=="DELETE"){
+            screen.innerText = String(screen.innerText).slice(0,-1);
+        }
+
+        else{
+            logged = false;
+            elements = [];
             screen.innerText = ""
+            subScreen.innerText = ""
         }
-
-        if(e.innerText=="DELETE"){
-            screen.innerText = String(screen.innerText).slice(0,-1)
-        }
-
-        if(e.innerText=="="){
-            screen.innerText = calculate()
-        }
-
-        // if(e.classList.contains("operators")){
-        //     temp = screen.innerText
-        //     screen.innerText = ""
-        //     screen.innerText = eval(temp)
-        // }
-
-
-    })
+    });
 });
 
+
 function calculate(){
-    let temp = screen.innerText;
-    screen.innerText = "";
-    try {
-        resultDisplayed = true;
-        return eval(temp)
+    switch(elements[1]){
+
+        case "+":
+            return addNumbers()
+
+        case "-":
+            return subtractNumbers()
+
+        case "X":
+            return multiplyNumbers()
+
+        case "/":
+            return divideNumbers()
+    
     }
-    catch(err){
-        alert("Invalid! Please check your input!")
-        resultDisplayed = false;
-        return temp
-    }
+}
+
+function addNumbers(){
+    return parseFloat(elements[0]) + parseFloat(elements[2])
+}
+
+function subtractNumbers(){
+    return parseFloat(elements[0]) - parseFloat(elements[2])
+}
+
+function multiplyNumbers(){
+    return parseFloat(elements[0]) * parseFloat(elements[2])
+}
+
+function divideNumbers(){
+    return parseFloat(elements[0]) / parseFloat(elements[2])
 }

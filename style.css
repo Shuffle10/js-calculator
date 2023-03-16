@@ -35,8 +35,9 @@ body{
     height: 100px;
     border-radius: 5px;
     display: flex;
-    justify-content: flex-end;
+    flex-direction: column;
     align-items: flex-end;
+    justify-content: space-between;
     padding: 10px;
     font-size: 30px;
 }
@@ -52,4 +53,13 @@ body{
 .btn:nth-child(1), .btn:nth-child(2){
     grid-column-start: 1;
     grid-column-end: 5;
+}
+
+.subscreen{
+    color: gray;
+    font-size: 15px;
+}
+
+.main-screen{
+    color: black;
 }
